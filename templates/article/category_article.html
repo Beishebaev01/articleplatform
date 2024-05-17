@@ -1,0 +1,45 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Статьи категории</title>
+</head>
+<body>
+    <h2 style="text-align: center">Статьи категории: {{ category.title }}</h2>
+    <div style="display: flex; flex-wrap: wrap; padding: 10px">
+        {% for article in articles %}
+            <div class="card" style="width: 18rem;">
+                {% if article.image %}
+                    <img src="/media/{{ article.image }}" class="card-img-top">
+                {% else %}
+                    <img src="{% static 'default_image.jpg' %}" class="card-img-top">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ article.title }}</h5>
+                    <h6 class="card-text">{{ article.author }}</h6>
+                </div>
+                <ul class="list-group">
+                    {% for category in article.categories.all %}
+                        <a class="list-group-item list-group-item-action list-group-item-info" href="/categories/{{ category.id }}">{{ category.title }}</a>
+                    {% endfor %}    
+                </ul>
+                <div class="card-body">
+                    <a href="/articles/{{ article.id }}" class="btn btn-primary">Читать</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div style="text-align: center">
+        <a href="/categories/" class="btn btn-primary">Назад</a>
+    </div>
+</body>
+</html>
+{% endblock %}

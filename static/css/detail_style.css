@@ -1,0 +1,14 @@
+.article-img {
+    height: 400px;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.card {
+    margin-bottom: 20px;
+}

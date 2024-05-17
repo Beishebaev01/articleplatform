@@ -1,0 +1,15 @@
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  color: #00bfff;
+}
+
+.content-container {
+    padding: 15px;
+    margin: 30px ; /* Отступ сверху и снизу между хедером и футером */
+}

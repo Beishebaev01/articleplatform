@@ -1,0 +1,61 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+{% block content %}
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'css/detail_style.css' %}">
+    <title>{{ article.title }}</title>
+</head>
+<body>
+    <main>
+        <section class="container">
+            <div class="post">
+                {% if article.image %}
+                    <img class="card-img-top article-img" src="/media/{{ article.image }}">
+                {% else %}
+                    <img src="{% static 'default_image.jpg' %}">
+                {% endif %}
+                <h3 class="card-title">{{ article.title }}</h3>
+                <p class="card-text">{{ article.content }}</p>
+                {% for category in article.categories.all %}
+                    <a class="btn btn-primary" href="/categories/{{ category.id }}">{{ category.title }}</a>
+                {% endfor %}
+                <h6><srtong>Автор:</srtong> {{ article.author.last_name }} {{ article.author.first_name }}</h6>
+                {% if article.updated_date > article.created_date %}
+                    <p>Создано {{ article.created_date }}</p>
+                    <p>Изменено {{ article.updated_date }}</p>
+                {% else %}
+                    <p>Создано {{ article.created_date }}</p>
+                {% endif %}
+                <p>Комментарии:</p>
+                {% for comment in article.comments.all %}
+                    <p>{{ comment.author }}: {{ comment.text }} -- {{ comment.created_date }}</p>
+                {% endfor %}
+                <a href="/" class="btn btn-primary">Назад</a>
+                {% if user.is_authenticated and user == article.author %}
+                    <a href="edit/" class="btn btn-primary">Изменить</a>
+                    <a href="delete/" class="btn btn-secondary">Удалить</a>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <h4>Добавить комментарий</h4>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                    <button type="submit">Добавить</button>
+                    </form>
+                {% else %}
+                    <p>Вы должны <a href="/login/">войти в систему</a>, чтобы оставить комментарий.</p>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+{% endblock %}
